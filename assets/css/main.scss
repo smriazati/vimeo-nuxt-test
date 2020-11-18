@@ -1,0 +1,131 @@
+
+body {
+    background: #000;
+    color: #fff;
+    font-family: sans-serif;
+  }
+  
+  .btn {
+    opacity: 1;
+    transition: .3s ease opacity;
+    padding: 10px;
+    background: rgb(30,30,30);
+    display: inline-block;
+    text-decoration: none;
+    color: white;
+    &:hover {
+      cursor: pointer;
+      opacity: 0.5;
+    }
+  }
+  .big.video-iframe-wrapper {
+    width: 100vw;
+    height: 100vh;
+  }
+  
+  .video-iframe-wrapper {
+    height: 100%;
+  }
+  
+  .video-iframe-wrapper div,
+  .video-iframe-wrapper iframe {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .vid-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 25vh;
+  }
+  
+  .vid-grid-item {
+    position: relative;
+    
+    .link-overlay,
+    .video-iframe-wrapper {
+      position: absolute;
+      top: 0;
+    }
+    .video-iframe-wrapper {
+      margin: 0 auto;
+      width: 100%;
+    }
+    .link-overlay {
+      position: absolute;
+      top: 0;
+      display: block;
+      height: 100%;
+      width: 100%;
+    }
+  }
+  
+  a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .full-width > div {
+    width: 1280px;
+    height: 720px;
+    margin: 0 auto;
+  }  
+
+
+
+  .music-controls {
+    position: fixed;
+  }
+
+
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  animation: fadeIn 1s ease-in forwards;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    display: block;
+  }
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
+
+.fadeOut {
+  animation: fadeOut .1s ease-out forwards;
+}
+
+@keyframes pulsing {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: .3;
+  }
+}
+
+.loadingIcon {
+  position: fixed;
+  font-size: 100px;
+  padding: 20px;
+}
+
+.pulsing {
+  animation: pulsing 1s alternate infinite;
+}
+
+.visually-hidden {
+  display: none;
+}

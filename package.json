@@ -1,7 +1,7 @@
 {
-  "name": "vmplayertest",
+  "name": "3x13prototype",
   "version": "1.0.0",
-  "description": " ",
+  "description": "Nuxt.js application for 3x13 Digital Exhibition",
   "author": "sarah riazati",
   "private": true,
   "scripts": {
@@ -15,8 +15,6 @@
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/dotenv": "^1.4.0",
     "nuxt": "^2.0.0",
-    "sass": "^1.26.10",
-    "sass-loader": "^8.0.2",
     "vue-vimeo-player": "^0.1.0"
   },
   "devDependencies": {
@@ -24,6 +22,9 @@
     "@nuxtjs/eslint-module": "^1.0.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^6.1.0",
-    "eslint-plugin-nuxt": ">=0.4.2"
+    "eslint-plugin-nuxt": ">=0.4.2",
+    "fibers": "^5.0.0",
+    "sass": "^1.29.0",
+    "sass-loader": "^8.0.2"
   }
 }

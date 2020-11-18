@@ -1,22 +1,34 @@
 <template>
   <div class="container">
-    <nuxt-link to="/">
+    <nuxt-link to="/main">
       Back
     </nuxt-link>
-    
+  
     <div class="full-width">
-      <div 
-        class="video-iframe-wrapper" 
-        @click="play">
-        <vimeo-player 
-          ref="player" 
-          :video-id="277006925" 
-          :options="options"
-          :video-url="videoUrl" 
-          :player-height="height" 
-          @ready="onReady"
-          @ended="ended">
-        </vimeo-player>
+      <div v-if="thisVideo.fields">
+        <div 
+          class="video-iframe-wrapper" 
+          @click="play">
+          <vimeo-player 
+            ref="player" 
+            :video-id="thisVideo.fields.VideoID" 
+            :options="options"
+            :video-url="thisVideo.fields.PrivateLink" 
+            :player-height="height" 
+            @ready="onReady"
+            @ended="ended">
+          </vimeo-player>
+        </div>
+        <div class="text-wrapper">
+          <h1>{{ thisVideo.fields.Name }}</h1>
+          <h2>{{ thisVideo.fields.Location }}</h2>
+        </div>
+        <div @click.prevent="nextVid" class="next-btn btn">
+          <p>Next</p>
+        </div>
+      </div>
+      <div v-else>
+        LOADING
       </div>
     </div>
   </div>
@@ -27,16 +39,25 @@
 export default {
   data() {
     return {
-      videoID: 'some-id',
-      videoUrl: 'https://vimeo.com/277006925/c16e626108',
       height: 500,
       options: {
         autoplay: true,
-        controls: false,
+        controls: true,
         loop: false,
-        muted: true
+        muted: false
       },
       playerReady: false
+    }
+  },
+  computed: {
+    thisOrder() {
+      return parseInt(this.$route.params.story);
+    },
+    thisVideo() {
+      const content = this.$store.state.content.records;
+      const thisOrder = this.thisOrder;
+      const theMatch = content.filter( c => c.fields.Order === thisOrder);
+      return theMatch[0];
     }
   },
   methods: {
@@ -50,22 +71,23 @@ export default {
     pause () {
       this.$refs.player.pause()
     },
+    nextVid() {
+      let thisOne = this.thisOrder;
+      let nextPath;
+      if (thisOne < 12) {
+        nextPath = `/stories/${thisOne + 1}`;
+      } else {
+        nextPath = `/stories/1`;
+      }
+      this.$router.push(nextPath);
+    },
     ended () {
-      this.$router.push('/');
+      this.nextVid();
     }
   }
 }
 </script>
 
 <style lang="scss">
-a {
-  color: white;
-  text-decoration: none;
-}
 
-.full-width > div {
-  width: 1280px;
-  height: 720px;
-  margin: 0 auto;
-}
 </style>
