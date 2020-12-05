@@ -32,6 +32,10 @@ module.exports = {
     'vue/html-indent': 'off',
     'vue/multiline-html-element-content-newline': 'off',
     'vue/no-v-html': 'off',
-    'prefer-const': 'off'
+    'prefer-const': 'off',
+    'no-irregular-whitespace': 'off',
+    'vue/html-closing-bracket-newline': 'off',
+    'comma-dangle': 'off',
+    'no-var': 'off'
   }
 }

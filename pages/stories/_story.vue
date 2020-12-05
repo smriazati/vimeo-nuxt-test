@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <nuxt-link to="/main">
-      Back
+    <nuxt-link to="/">
+      ←
     </nuxt-link>
   
     <div class="full-width">
@@ -19,12 +19,14 @@
             @ended="ended">
           </vimeo-player>
         </div>
-        <div class="text-wrapper">
-          <h1>{{ thisVideo.fields.Name }}</h1>
-          <h2>{{ thisVideo.fields.Location }}</h2>
-        </div>
-        <div @click.prevent="nextVid" class="next-btn btn">
-          <p>Next</p>
+        <div class="vid-info">
+          <div class="text-wrapper">
+            <h1>{{ thisVideo.fields.Name }}</h1>
+            <h2>{{ thisVideo.fields.Location }}</h2>
+          </div>
+          <div class="next-btn btn" @click.prevent="nextVid">
+            <p>→</p>
+          </div>
         </div>
       </div>
       <div v-else>
@@ -35,6 +37,7 @@
 </template>
 
 <script>
+import { TweenLite } from 'gsap'
 
 export default {
   data() {
@@ -42,7 +45,7 @@ export default {
       height: 500,
       options: {
         autoplay: true,
-        controls: true,
+        controls: false,
         loop: false,
         muted: false
       },
