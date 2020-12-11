@@ -36,6 +36,9 @@ module.exports = {
     'no-irregular-whitespace': 'off',
     'vue/html-closing-bracket-newline': 'off',
     'comma-dangle': 'off',
-    'no-var': 'off'
+    'no-var': 'off',
+    'vue/singleline-html-element-content-newline' : 'off',
+    'vue/require-default-prop': 'off',
+    'no-multi-spaces': 'off'
   }
 }

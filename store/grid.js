@@ -6,13 +6,18 @@ export const state = () => ({
     isModalOpen: false,
     isModalPlaying: false,
     activeModal: null,
-    isPaginationExpanded: false
+    isPaginationExpanded: false,
+    isModalTransitioning: false,
+    subtitleLanguage: 'en'
 })
 
 
 export const mutations = {
     areVidsSynced: (state, payload) => {
         state.areVidsSynced = payload;
+    },
+    setSubtitle: (state, payload) => {
+        state.subtitleLanguage = payload;
     },
     gridFirstPlay: (state) => {
         state.isGridPlaying = true;
@@ -23,6 +28,9 @@ export const mutations = {
         if (state.isGridPlaying) {
             state.isAboutOpen = false;
         }
+    },
+    isModalTransitioning: (state, payload) => {
+        state.isModalTransitioning = payload;
     },
     toggleAbout: (state) => {
         state.isAboutOpen = !state.isAboutOpen;
@@ -47,6 +55,7 @@ export const mutations = {
         state.activeModal = null;
         state.isGridPlaying = true;
         state.isModalPlaying = false;
+        state.isPaginationExpanded = false;
     },
     expandPagination: (state) => {
         state.isPaginationExpanded = true;

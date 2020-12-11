@@ -1,56 +1,67 @@
 <template>
-  <div class="container">
-    <nav>
-      <div to="/" class="logo btn" :class="isModalOpen || isPaginationExpanded ? 'disabled' : 'enabled' " @click="toggleAbout">
-        <h1>3x13</h1>  
-      </div>
-    </nav>
-    <div class="intro">
-      <div v-if="!areVidsSynced" class="loading">
-        {{ loadingText }}
-      </div>
-      <div v-if="areVidsSynced && !isGridPlaying && neverBeenPlayed" role="button" class="btn" @click="gridFirstPlay">
-        {{ playBtnText }}
-      </div>
-    </div>
-    <div class="film-grid-wrapper" :class="isGridPlaying ? 'anim-enter-films' : 'anim-loading-films' ">
+  <div class="container layout-stack-wrapper">
+    <div
+      class="film-grid-wrapper layout-stack-item"
+      :class="isGridPlaying ? 'anim-enter-films' : 'anim-loading-films'"
+    >
       <Film13 :is-playing="isGridPlaying" />
     </div>
-
-    <div v-if="isModalOpen" class="film-modal">
-      <FilmPagination :item="activeModal" :expanded="false" />
-      <FilmModal :item="activeModal" />
+    <div 
+      :class="neverBeenPlayed ? 'anim-page-inView' : 'anim-page-slideLeft' " 
+      class="site-intro layout-stack-item layout-stack-top">
+      <SiteIntro />
+    </div>
+    <div 
+      v-if="!neverBeenPlayed" 
+      :class="isAboutOpen ? 'anim-page-inView' : 'anim-page-slideLeft' " 
+      class="site-about layout-stack-item layout-stack-top">
+      <SiteAbout />
+    </div>
+    <div
+      :class="isModalOpen ? 'anim-modal-inView' : 'anim-modal-slideRight' " 
+      class="film-modal layout-stack-item"
+    > 
+      <div v-if="activeModal">
+        <FilmModal :item="activeModal" />
+      </div>
     </div>
 
-    <div v-if="isPaginationExpanded" class="film-pagination-expanded">
+    <div
+      v-if="isPaginationExpanded"
+      class="film-pagination-expanded layout-stack-item"
+    >
       <FilmPagination :item="activeModal" :expanded="true" />
     </div>
-    
   </div>
 </template>
 
 <script>
-import Film13 from '@/components/Film13.vue'
-import FilmModal from '@/components/FilmModal.vue'
-import FilmPagination from '@/components/FilmPagination.vue'
+import SiteIntro from "@/components/SiteIntro.vue";
+import SiteAbout from "@/components/SiteAbout.vue";
+import Film13 from "@/components/Film13.vue";
+import FilmModal from "@/components/FilmModal.vue";
+import FilmPagination from "@/components/FilmPagination.vue";
 
 export default {
-  layout: 'default',
+  layout: "default",
   components: {
+    SiteIntro,
+    SiteAbout,
     Film13,
     FilmModal,
-    FilmPagination
+    FilmPagination,
   },
-  data() {
-    return {
-      loadingText: 'Loading',
-      playBtnText: 'Play the film'
-    }
+  asyncData({ store, $axios }) {
+    // update to cms base url
+    // update to query multiple APIs at once
+    return $axios
+      .get("https://proxy.russellfavret.com/?rest_route=/wp/v2/waterfall")
+      .then((res) => {
+        store.commit("content/setFilmData", res.data);
+        return { apiDataFilms: res.data };
+      });
   },
   computed: {
-    areVidsSynced() {
-      return this.$store.state.grid.areVidsSynced;
-    },
     isGridPlaying() {
       return this.$store.state.grid.isGridPlaying;
     },
@@ -65,55 +76,11 @@ export default {
     },
     isPaginationExpanded() {
       return this.$store.state.grid.isPaginationExpanded;
-    }
-  },
-  methods: {
-    gridFirstPlay() {
-      this.$store.commit('grid/gridFirstPlay');
     },
-    toggleAbout() {
-      if (!this.isModalOpen && !this.isPaginationExpanded) {
-        this.$store.commit('grid/toggleAbout');
-      }
-    }
+    isAboutOpen() {
+      return this.$store.state.grid.isAboutOpen;
+    },
   }
-}
+};
 </script>
 
-<style lang="scss">
-
-nav {
-  top: 0;
-  left: 0;
-  height: 100px;
-  width: 200px;
-  position: fixed;
-  z-index: 9999;
-}
-
-.intro {
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 1;
-  width: 100%;
-  width: 100vw;
-  height: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.anim-loading-films {
-  opacity: .1;
-}
-
-.anim-enter-film {
-  opacity: 1;
-  position: fixed;
-  z-index: 100;
-}
-
-
-</style>
