@@ -13,6 +13,7 @@
         v-if="isModalLoading || isModalTransitioning"
         class="loading-iframe">
       </div>
+      <client-only>
       <vimeo-player
         ref="modalPlayer"
         :key="item.id"
@@ -25,6 +26,7 @@
         @ended="onEnding"
       >
       </vimeo-player>
+      </client-only>
     </div>
     <div class="modal-pagination">
       <FilmPagination :item="item" :expanded="false" />

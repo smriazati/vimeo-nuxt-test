@@ -41,6 +41,10 @@ export const mutations = {
             state.isGridPlaying = true;
         }
     },
+    openAbout: (state) => {
+        state.isAboutOpen = true;
+        state.neverBeenPlayed = false;
+    },
     openModal: (state, payload) => {
         state.isPaginationExpanded = false;
         state.isModalOpen = true;

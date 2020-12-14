@@ -3,11 +3,19 @@
     <header class="about-header">
       <h1 class="headline">{{ introData.AboutHeadline.data }}</h1>
     </header>
+
     <main>
       <section 
         class="about-section about-body-text"
         v-html="introData.AboutBodyText.data"
         ></section>
+
+      <section class="tutorial">
+        <h3>How it works</h3>
+        <p>{{ introData.IntroTutorialText.data }}</p>
+      </section>
+
+      <VidSubtitles />
 
       <section class="about-section crew-bios">
         <h2>Crew</h2>
@@ -69,9 +77,12 @@
 </template>
 
 <script>
+import VidSubtitles from '@/components/VidSubtitles.vue'
 
 export default {
-  layout: "default",
+  components: {
+    VidSubtitles
+  },
   computed: {
     introData() {
       return this.$store.state.content.testStaticData;
@@ -86,10 +97,16 @@ export default {
       }
       return this.$store.state.content.apiDataFilms[0].ACF.featured_image;
     },
+    activeSubtitle() {
+      return this.$store.state.grid.subtitleLanguage;
+    }
   },
   methods: {
     toggleAbout() {
       this.$store.commit("grid/toggleAbout");
+    },
+    subtitleChange(payload) {
+      this.$store.commit("grid/setSubtitle", payload);
     }
   }
 };

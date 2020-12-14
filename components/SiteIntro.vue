@@ -9,23 +9,18 @@
         class="intro-body-text"
         v-html="introData.IntroBodyText.data" 
         ></section>
+        <section>
+          <p class="small link" role="button" @click="openAbout">About the project</p>
+        </section>
     </main>
     <nav class="highlight-card">
         <section class="tutorial">
           <h3>How it works</h3>
           <p>{{ introData.IntroTutorialText.data }}</p>
         </section>
-        <section class="subtitles">
-          <h3>Subtitles</h3>
-          <ul>
-            <li 
-              :class="activeSubtitle === 'en' ? 'active-sub' : 'inactive-sub' "
-              @click="subtitleChange('en')">English</li>
-            <li 
-              :class="activeSubtitle === 'ar' ? 'active-sub' : 'inactive-sub' "
-              @click="subtitleChange('ar')">عربى</li>
-          </ul>
-        </section>
+  
+        <VidSubtitles />
+
         <button 
           v-if="!areVidsSynced" 
           role="button"
@@ -41,6 +36,7 @@
         >
           {{ playBtnText }}
         </button>
+
       </nav>
 
   </div>
@@ -48,9 +44,12 @@
 </template>
 
 <script>
+import VidSubtitles from '@/components/VidSubtitles.vue'
 
 export default {
-  layout: "default",
+  components: {
+    VidSubtitles
+  },
   data() {
     return {
       loadingText: "Loading",
@@ -63,17 +62,14 @@ export default {
     },
     introData() {
       return this.$store.state.content.testStaticData;
-    },
-    activeSubtitle() {
-      return this.$store.state.grid.subtitleLanguage;
     }
   },
   methods: {
     gridFirstPlay() {
       this.$store.commit("grid/gridFirstPlay");
     },
-    subtitleChange(payload) {
-      this.$store.commit("grid/setSubtitle", payload);
+    openAbout() {
+      this.$store.commit("grid/openAbout");
     }
   },
 };

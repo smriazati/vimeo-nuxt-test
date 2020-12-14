@@ -4,9 +4,10 @@
       v-if="!neverBeenPlayed"
       class="site-logo"
       >
-      <div class="logo btn btn-transp" @click="toggleAbout">
+      <div class="logo link link-invert" @click="toggleAbout">
         <h1>3x13</h1>
       </div>
+      <VidSubtitles :stack="true" />
     </nav>
     <div class="master-track">
       <audio ref="music">
@@ -35,6 +36,7 @@
           </audio>
         </div>
         <div class="iframe-wrapper">
+          <client-only>
           <vimeo-player
             ref="player"
             :key="item.id"
@@ -47,6 +49,7 @@
             @pause="onPausing"
           >
           </vimeo-player>
+          </client-only>
         </div>
         <div
           class="poster-wrapper"
@@ -66,7 +69,12 @@
 </template>
 
 <script>
+import VidSubtitles from '@/components/VidSubtitles.vue'
+
 export default {
+  components: {
+    VidSubtitles
+  },
   props: {
     isPlaying: Boolean,
   },
