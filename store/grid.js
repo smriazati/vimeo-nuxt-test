@@ -19,12 +19,12 @@ export const mutations = {
     setSubtitle: (state, payload) => {
         state.subtitleLanguage = payload;
     },
-    gridFirstPlay: (state) => {
-        state.isGridPlaying = true;
-        state.neverBeenPlayed = false;
-    },
     changeGridPlayback: (state, payload) => {
         state.isGridPlaying = payload;
+        if (payload && state.neverBeenPlayed) {
+            state.neverBeenPlayed = false;
+        }
+
         if (state.isGridPlaying) {
             state.isAboutOpen = false;
         }
@@ -43,7 +43,7 @@ export const mutations = {
     },
     openAbout: (state) => {
         state.isAboutOpen = true;
-        state.neverBeenPlayed = false;
+        // state.neverBeenPlayed = false;
     },
     openModal: (state, payload) => {
         state.isPaginationExpanded = false;

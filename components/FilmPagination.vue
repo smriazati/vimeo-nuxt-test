@@ -13,7 +13,7 @@
           <button class="pagination-link">←</button>
           <div class="button-hover-overlay">
             <div class="image-wrapper">
-              <img :src="testPosterImage.sizes.large" :alt="testPosterImage.alt" />
+              <img :src="prevFilm.fields.poster" alt="testPosterImage.alt" />
             </div>
             <div class="text-wrapper">
               <h2>{{ prevFilm.fields.Name }}</h2>
@@ -25,7 +25,7 @@
           <button class="pagination-link">→</button>
           <div class="button-hover-overlay">
             <div class="image-wrapper">
-              <img :src="testPosterImage.sizes.large" :alt="testPosterImage.alt" />
+              <img :src="nextFilm.fields.poster" alt="testPosterImage.alt" />
             </div>
             <div class="text-wrapper">
               <h2>{{ nextFilm.fields.Name }}</h2>
@@ -68,13 +68,6 @@ export default {
     filmData() {
         // update to API data
       return this.$store.state.content.testData;
-    },
-    testPosterImage() {
-      // delete after CMS
-      if (!this.$store.state.content.apiDataFilms) {
-        return null;
-      }
-      return this.$store.state.content.apiDataFilms[0].ACF.featured_image;
     },
     currentFilm() {
       if (!this.item) {

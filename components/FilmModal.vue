@@ -52,7 +52,7 @@ export default {
       options: {
         autoplay: true,
         autopause: false,
-        controls: false,
+        controls: true,
         loop: false,
         muted: false,
         texttrack: this.$store.state.grid.subtitleLanguage,

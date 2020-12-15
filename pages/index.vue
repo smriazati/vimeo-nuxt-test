@@ -12,7 +12,6 @@
       <SiteIntro />
     </div>
     <div 
-      v-if="!neverBeenPlayed" 
       :class="isAboutOpen ? 'anim-page-inView' : 'anim-page-slideLeft' " 
       class="site-about layout-stack-item layout-stack-top">
       <SiteAbout />

@@ -31,7 +31,7 @@
             :data-sfx-id="item.fields.Order"
             @ended="onSfxEnding(item.fields.Order)"
           >
-            <!-- <source src="/sfx.mp3" type="audio/mpeg" /> -->
+            <source src="/sfx.mp3" type="audio/mpeg" />
             Your browser does not support the audio tag.
           </audio>
         </div>
@@ -55,7 +55,7 @@
           class="poster-wrapper"
           :class="showPosterImages ? 'show-images' : 'hide-images'"
         >
-          <img :src="testPosterImage.sizes.large" :alt="testPosterImage.alt" />
+          <img :src="item.fields.poster" alt="coming soon" />
         </div>
         <div class="text-wrapper">
           <div class="inner-text">
@@ -83,10 +83,8 @@ export default {
       devUtil: {
         muteMusic: false,
       },
-      isMounted: false,
       areVideosLoaded: false,
       areVideosPlaying: false,
-      areVideosJumpedAndPaused: false,
       areVideosSynced: false,
       startPlayback: false,
       gridState: "Loading",
@@ -132,14 +130,7 @@ export default {
       } else {
         return false;
       }
-    },
-    testPosterImage() {
-      // delete after CMS
-      if (!this.$store.state.content.apiDataFilms) {
-        return null;
-      }
-      return this.$store.state.content.apiDataFilms[0].ACF.featured_image;
-    },
+    }
   },
   watch: {
     loadedCount() {

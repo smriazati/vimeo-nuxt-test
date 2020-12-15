@@ -9,6 +9,7 @@ $dark: rgb(12, 11, 11);
 $light:rgb(232, 232, 232);
 $gray: rgb(44,44,44);
 
+$bp-lg: 1280px;
 
 ::-moz-selection { background: $light; color: $dark }
 ::selection { background: $light; color: $dark }
@@ -248,10 +249,15 @@ a,
 
 .site-grid {
   margin: 0 auto;
-  max-width: 129vh;
+
   display: grid;
-  grid-template-columns: repeat(6, 21.5vh);
   grid-auto-rows: min-content;
+
+  @media (min-width: $bp-lg) {
+    max-width: 129vh;
+    grid-template-columns: repeat(6, 21.5vh);
+  }
+
 
   header {
     grid-column: 1 / span 4;
@@ -326,6 +332,7 @@ a,
 /* Film 13 */
 
 .film13-container {
+  height: 100vh;
   .site-logo {
     position: fixed;
     top: 0;
@@ -333,20 +340,31 @@ a,
   }
 }
 
+@media (min-width: $bp-lg) {
+  .film13-grid {
+    height: 100vh;
+    width: 129vh;
+    margin: 0 auto;
+    // grid-template-rows: repeat(4, 25vh);
+    grid-template-columns: repeat(3,43vh);
+  }
+}
+
+@media (max-width: $bp-lg - 1) {
+    .film13-container {
+      display: flex;
+      align-items: center;
+    }
+    .film13-grid {
+      width: 90vw;
+      margin: 0 auto;
+      grid-template-columns: repeat(3, 30vw);
+    }
+}
+
 .film13-grid {
   display: grid;
-
-  // width: 72vw;
-  // margin: 0 auto;
-  // grid-template-columns: repeat(3, 24vw);
-  // grid-auto-rows: 13.5vw;
-
-  display: grid;
-  height: 100vh;
-  width: 129vh;
-  margin: 0 auto;
-  grid-template-rows: repeat(4, 25vh);
-  grid-template-columns: repeat(3,43vh);
+  grid-auto-rows: min-content;
 }
 
 .film13-grid-item {
@@ -368,14 +386,15 @@ a,
     align-items: flex-start;
 
     .inner-text {
-      transform: translateY(25vh);
+      opacity: 0;
+      transform: translateX(25vw);
       background: rgba(0,0,0,0);
       width: 100%;
       // width: 50%;
       // margin: 0 auto;
       padding: $spacer;
       text-align: center;
-      transition: .3s ease-in-out all;
+      transition: .6s ease-in-out all;
       h2, h3 {
         font-weight: 400;
       }
@@ -399,6 +418,7 @@ a,
     .inner-text {
       background: rgba(0,0,0,.8);
       transform: translateY(0);
+      opacity: 1;
     }
   }
 
@@ -695,6 +715,15 @@ $btnSize: 50px;
   section p:first-child {
     margin-top: $spacer*2;
   }
+  h3 {
+    font-size: 1.5em;
+    line-height: 1.3em;
+  }
+
+  h4 {
+    margin-top: 0;
+  }
+
   .artist-bio-grid {
     margin-top: $spacer*4;
     display: flex;
@@ -705,10 +734,9 @@ $btnSize: 50px;
     }
     h3 {
       font-size: 1.5em;
+      line-height: 1.3em;
     }
-    h4 {
-      margin-top: 0;
-    }
+
     .artist-bio-grid-item {
       margin-bottom: $spacer*6;
     }

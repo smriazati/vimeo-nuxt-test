@@ -18,24 +18,23 @@
       <VidSubtitles />
 
       <section class="about-section crew-bios">
-        <h2>Crew</h2>
         <div 
           class="body-text-grid about-crew-bios"
-          v-html="introData.AboutBodyText.data"
+          v-html="introData.AboutCrewBios.data"
           ></div>
       </section>
 
       <section class="about-section artist-bios">
-        <h2>Artists</h2>
+        <h2>Cast</h2>
         <div class="full-col artist-bio-grid">
           <div 
             v-for="item in filmData" 
             :key="item.id"
             class="artist-bio-grid-item">
-              <img :src="testPosterImage.sizes.medium" :alt="testPosterImage.alt" />
+              <img :src="item.fields.poster" alt="coming soon" />
               <h3>{{ item.fields.Name }}</h3>
               <h4>{{ item.fields.Location }}</h4>
-              <p>Duis vestibulum dapibus nisl, ut luctus orci dictum non. Vestibulum ultricies efficitur consectetur. Curabitur eu nisi ultricies, dictum ante ut, feugiat velit. Proin bibendum placerat sapien, at laoreet dui finibus eget. Pellentesque mattis tortor sollicitudin, mollis velit eu, tincidunt leo. Phasellus pulvinar purus orci, sit amet ultricies purus molestie at. Praesent convallis ut dolor sit amet sollicitudin. Pellentesque accumsan sagittis bibendum. Aenean lobortis lectus eu consectetur pulvinar. <a :href="item.fields.PrivateLink" target="_blank" class="strong">Link</a></p>
+              <p>{{ item.fields.bio }} <a :href="item.fields.PrivateLink" target="_blank" class="strong">Link</a></p>
           </div>
         </div>
       </section>
@@ -65,22 +64,18 @@
 
     </footer>
       <nav>
-        <button 
-          class="back-btn play-btn btn" 
-          role="button"
-          @click="toggleAbout"
-          >
-          Play Film
-        </button>
+        <PlayButton />
       </nav>
 </div>
 </template>
 
 <script>
+import PlayButton from '@/components/PlayButton.vue'
 import VidSubtitles from '@/components/VidSubtitles.vue'
 
 export default {
   components: {
+    PlayButton,
     VidSubtitles
   },
   computed: {
@@ -89,13 +84,6 @@ export default {
     },
     filmData() {
       return this.$store.state.content.testData;
-    },
-    testPosterImage() {
-      // delete after CMS
-      if (!this.$store.state.content.apiDataFilms) {
-        return null;
-      }
-      return this.$store.state.content.apiDataFilms[0].ACF.featured_image;
     },
     activeSubtitle() {
       return this.$store.state.grid.subtitleLanguage;

@@ -14,28 +14,11 @@
         </section>
     </main>
     <nav class="highlight-card">
-        <section class="tutorial">
-          <h3>How it works</h3>
-          <p>{{ introData.IntroTutorialText.data }}</p>
-        </section>
+        <SiteTutorial />
   
         <VidSubtitles />
 
-        <button 
-          v-if="!areVidsSynced" 
-          role="button"
-          class="loading-btn btn disabled"
-          >
-          {{ loadingText }}
-        </button>
-        <button
-          v-if="areVidsSynced"
-          role="button"
-          class="btn play-btn"
-          @click="gridFirstPlay"
-        >
-          {{ playBtnText }}
-        </button>
+        <PlayButton />
 
       </nav>
 
@@ -45,16 +28,14 @@
 
 <script>
 import VidSubtitles from '@/components/VidSubtitles.vue'
+import SiteTutorial from '@/components/SiteTutorial.vue'
+import PlayButton from '@/components/PlayButton.vue'
 
 export default {
   components: {
-    VidSubtitles
-  },
-  data() {
-    return {
-      loadingText: "Loading",
-      playBtnText: "Start Film",
-    };
+    VidSubtitles,
+    SiteTutorial,
+    PlayButton
   },
   computed: {
     areVidsSynced() {
@@ -65,9 +46,6 @@ export default {
     }
   },
   methods: {
-    gridFirstPlay() {
-      this.$store.commit("grid/gridFirstPlay");
-    },
     openAbout() {
       this.$store.commit("grid/openAbout");
     }
