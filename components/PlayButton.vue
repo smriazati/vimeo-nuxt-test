@@ -38,6 +38,12 @@ export default {
     playGrid() {
       // console.log('clicky click')
       this.$store.commit("grid/changeGridPlayback", true);
+
+      const payload = {
+        old: 'about',
+        new: 'film13'
+      }
+      this.$store.commit("transitions/routeChange", payload );
     },
   },
 };

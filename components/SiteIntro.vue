@@ -1,6 +1,7 @@
 <template>
-  <div class="site-grid page-container intro-container scroll-container">
-    <header class="intro">
+  <div 
+    class="site-grid page-container intro-container">
+    <header>
       <h1 class="title">{{ introData.IntroHeadline.data }}</h1>
       <h2 class="subheadline">{{ introData.IntroSubheadline.data }}</h2>
     </header>
@@ -9,17 +10,14 @@
         class="intro-body-text"
         v-html="introData.IntroBodyText.data" 
         ></section>
-        <section>
-          <p class="small link" role="button" @click="openAbout">About the project</p>
+        <section class="small-about-link">
+          <p v-show="!isAboutOpen" class="small link" role="button" @click="openAbout">About the project</p>
         </section>
     </main>
     <nav class="highlight-card">
         <SiteTutorial />
-  
         <VidSubtitles />
-
         <PlayButton />
-
       </nav>
 
   </div>
@@ -43,13 +41,23 @@ export default {
     },
     introData() {
       return this.$store.state.content.testStaticData;
+    },
+    isAboutOpen() {
+      return this.$store.state.grid.isAboutOpen
+    },
+    routes() {
+      const routes = {
+        new: this.$store.state.transitions.newRoute,
+        old: this.$store.state.transitions.oldRoute
+      } 
+      return routes;
     }
   },
   methods: {
     openAbout() {
       this.$store.commit("grid/openAbout");
     }
-  },
+  }
 };
 </script>
 

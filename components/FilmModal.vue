@@ -1,16 +1,23 @@
 <template>
-  <div class="modal-grid">
-    <div class="modal-close-overlay" @click="closeModal"></div>
-    <div 
-      :class="isModalOpen ? 'modal-controls-anim-enter' : 'modal-controls-anim-exit'"
-      class="modal-close-btn" 
-      @click="closeModal"
+<div 
+  :class="transition"
+  class="transition-container">
+<div 
+    v-if="item" 
+    :class="isModalEnded ? 'modal-ended' : 'modal-not-ended'"
+    class="modal-grid"
     >
-      <button>x</button>
+    
+    <div class="modal-close-overlay" @click="closeModal">      
+      <button class="modal-close-btn">x</button>
     </div>
-    <div class="modal-iframe-wrapper">
+
+    <div 
+      :class="isModalEnded ? 'modal-iframe-fadeOut' : 'modal-iframe-inView' "
+      class="modal-iframe-wrapper"
+      >
       <div 
-        v-if="isModalLoading || isModalTransitioning"
+        v-if="isModalLoading"
         class="loading-iframe">
       </div>
       <client-only>
@@ -29,9 +36,11 @@
       </client-only>
     </div>
     <div class="modal-pagination">
-      <FilmPagination :item="item" :expanded="false" />
+      <FilmPagination :item="item" :isModalEnded="isModalEnded" />
     </div>
   </div>
+</div>
+  
 </template>
 
 <script>
@@ -46,6 +55,8 @@ export default {
   },
   data() {
     return {
+      routeName: 'modal',
+      transition: 'exitSlideRight',
       height: 720,
       width: 1280,
       isModalLoading: true,
@@ -65,11 +76,52 @@ export default {
     },
     isModalTransitioning() {
       return this.$store.state.grid.isModalTransitioning
+    },
+    isModalEnded() {
+      return this.$store.state.grid.isModalEnded;
+    },
+    routes() {
+      const routes = {
+        new: this.$store.state.transitions.newRoute,
+        old: this.$store.state.transitions.oldRoute
+      } 
+      return routes;
+    },
+    modalRouteDirection() {
+      return this.$store.state.transitions.modalRouteDirection;
+    }
+  },
+  watch: {
+    routes() {
+      if (this.routes.new === this.routeName && this.routes.old === 'film13') {
+        console.log('Modal transition: enterSlideLeft')
+        this.transition = 'enterSlideLeft';
+      }
+     
+      if (this.routes.new === 'film13' && this.routes.old === this.routeName ) {
+        console.log('Modal transition: exitSlideRight')
+        this.transition = 'exitSlideRight';
+      }
+    },
+    modalRouteDirection() {
+      if (this.modalRouteDirection === 'prev') {
+        console.log('Modal direction: prev')
+        this.transition = "anim-previous"
+      } else if (this.modalRouteDirection === 'next') {
+        console.log('Modal direction: next');
+        this.transition = "anim-next"
+      }
     }
   },
   methods: {
     closeModal() {
       this.$store.commit("grid/closeModal");
+
+      const payload = {
+        old: this.routeName,
+        new: 'film13'
+      }
+      this.$store.commit("transitions/routeChange", payload );
     },
     onReady() {
       this.$store.commit("grid/isModalTransitioning", false);
@@ -77,18 +129,17 @@ export default {
     },
     onPlaying() {
       this.isModalLoading = false;
-      console.log('im playing now')
       this.$store.commit("grid/setModalPlaying", true);
     },
     onEnding() {
       this.$store.commit("grid/setModalPlaying", false);
-      this.$store.commit("grid/expandPagination");
+      this.$store.commit("grid/isModalEnded", true);
     },
     onLoading() {
       // console.log("hi im loaded");
       let ref = this.$refs.modalPlayer;
       ref.player
-          .setCurrentTime(3.000)
+          .setCurrentTime(2.000)
           .then(function (seconds) {
             ref.player.play();
             // console.log("jumped & played at", seconds);

@@ -1,54 +1,33 @@
 <template>
   <div class="container layout-stack-wrapper">
-    <div
+    <Film13
+      :is-playing="isGridPlaying"
       class="film-grid-wrapper layout-stack-item"
-      :class="isGridPlaying ? 'anim-enter-films' : 'anim-loading-films'"
-    >
-      <Film13 :is-playing="isGridPlaying" />
-    </div>
+    />
     <div 
-      :class="neverBeenPlayed ? 'anim-page-inView' : 'anim-page-slideLeft' " 
-      class="site-intro layout-stack-item layout-stack-top">
-      <SiteIntro />
+      v-if="isFilm13Ended"
+      class="layout-stack-item restart-film">
+      <button @click="playFilm13Again()" class="btn play-btn">
+        Play again
+      </button>
     </div>
-    <div 
-      :class="isAboutOpen ? 'anim-page-inView' : 'anim-page-slideLeft' " 
-      class="site-about layout-stack-item layout-stack-top">
-      <SiteAbout />
-    </div>
-    <div
-      :class="isModalOpen ? 'anim-modal-inView' : 'anim-modal-slideRight' " 
-      class="film-modal layout-stack-item"
-    > 
-      <div v-if="activeModal">
-        <FilmModal :item="activeModal" />
-      </div>
-    </div>
+    <FilmModal :item="activeModal" class="film-modal layout-stack-item" />
 
-    <div
-      v-if="isPaginationExpanded"
-      class="film-pagination-expanded layout-stack-item"
-    >
-      <FilmPagination :item="activeModal" :expanded="true" />
-    </div>
+    <SiteAbout class="site-about layout-stack-item layout-stack-top" />
   </div>
 </template>
 
 <script>
-import SiteIntro from "@/components/SiteIntro.vue";
 import SiteAbout from "@/components/SiteAbout.vue";
 import Film13 from "@/components/Film13.vue";
 import FilmModal from "@/components/FilmModal.vue";
-import FilmPagination from "@/components/FilmPagination.vue";
 
 export default {
   layout: "default",
   components: {
-    SiteIntro,
     SiteAbout,
     Film13,
     FilmModal,
-    FilmPagination,
   },
   asyncData({ store, $axios }) {
     // update to cms base url
@@ -79,7 +58,16 @@ export default {
     isAboutOpen() {
       return this.$store.state.grid.isAboutOpen;
     },
-  }
+    isFilm13Ended() {
+      return this.$store.state.grid.isFilm13Ended;
+    }
+  },
+  methods: {
+    playFilm13Again() {
+      console.log("restart all vids tktk");
+      this.$store.commit('grid/restartFilm13');
+    }
+  },
 };
 </script>
 

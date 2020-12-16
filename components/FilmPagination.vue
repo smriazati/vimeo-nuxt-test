@@ -3,15 +3,13 @@
     class="film-pagination"
     :class="expanded ? 'film-pagination-expanded' : 'film-pagination-minimal'"
   >
-    <div v-if="currentFilm">
-      <div
-        v-if="!expanded"
-        :class="isModalOpen ? 'modal-controls-anim-enter' : 'modal-controls-anim-exit'"
-        class="pagination-wrapper pagination-wrapper-minimal"
+    <div 
+      v-if="currentFilm"
+      class="pagination-wrapper"
       >
-        <div class="pagination-button prev-wrapper btn-hover" @click="openModal(prevFilm)">
-          <button class="pagination-link">←</button>
-          <div class="button-hover-overlay">
+        <button class="btn btn-transp pagination-button prev-wrapper" @click="changeModal(prevFilm, 'prev')">
+          <div class="pagination-link prev-arrow">←</div>
+          <div class="pagination-info">
             <div class="image-wrapper">
               <img :src="prevFilm.fields.poster" alt="testPosterImage.alt" />
             </div>
@@ -20,10 +18,10 @@
               <h3>{{ prevFilm.fields.Location }}</h3>
             </div>
           </div>
-        </div>
-        <div class="pagination-button next-wrapper btn-hover" @click="openModal(nextFilm)">
-          <button class="pagination-link">→</button>
-          <div class="button-hover-overlay">
+        </button>
+        <button class="btn btn-transp pagination-button next-wrapper" @click="changeModal(nextFilm, 'next')">
+          <div class="pagination-link next-arrow">→</div>
+          <div class="pagination-info">
             <div class="image-wrapper">
               <img :src="nextFilm.fields.poster" alt="testPosterImage.alt" />
             </div>
@@ -32,25 +30,7 @@
               <h3>{{ nextFilm.fields.Location }}</h3>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div
-        v-if="expanded"
-        class="pagination-wrapper pagination-wrapper-expanded"
-      >
-        <div class="close-modal btn-hover" @click="closeModal">x</div>
-        <div class="pagination-controls">
-          <div class="prev-wrapper btn-hover" @click="openModal(prevFilm)">
-            <p class="small">Previous</p>
-            <h2>{{ prevFilm.fields.Name }}</h2>
-          </div>
-          <div class="next-wrapper btn-hover" @click="openModal(nextFilm)">
-            <p class="small">Next</p>
-            <h2>{{ nextFilm.fields.Name }}</h2>
-          </div>
-        </div>
-      </div>
+        </button>
     </div>
   </div>
 </template>
@@ -59,11 +39,14 @@
 export default {
   props: {
     item: Object,
-    expanded: Boolean,
+    isModalEnded: Boolean,
   },
   computed: {
     isModalOpen() {
       return this.$store.state.grid.isModalOpen;
+    },
+    expanded() {
+      return this.isModalEnded;
     },
     filmData() {
         // update to API data
@@ -109,13 +92,9 @@ export default {
     },
   },
   methods: {
-    closeModal() {
-      this.$store.commit("grid/closeModal");
-    },
-    openModal(payload) {
-      // console.log(payload);
-      this.$store.commit("grid/isModalTransitioning", true);
-      this.$store.commit("grid/openModal", payload);
+    changeModal(item, direction) {
+      this.$store.commit("grid/openModal", item);
+      this.$store.commit("transitions/changeModal", direction)
     },
   },
 };

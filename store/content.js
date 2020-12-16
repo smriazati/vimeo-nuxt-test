@@ -119,7 +119,7 @@ export const state = () => ({
                 Index: 8,
                 Order: 8,
                 Name: "Kayna Lyn Wilson",
-                Location: "Huntsville, Alabama, United States",
+                Location: "Huntsville, Alabama, USA",
                 PrivateLink: "https://vimeo.com/479290680/513e5d639b",
                 VideoPrivateID: "479290680/513e5d639b",
                 VideoID: "479290680"
@@ -164,7 +164,7 @@ export const state = () => ({
                 Index: 11,
                 Order: 11,
                 Name: "Zoe Rabinowitz",
-                Location: "New Haven, Vermont, United States",
+                Location: "New Haven, Vermont, USA",
                 PrivateLink: "https://vimeo.com/479274322/62bcd46d48",
                 VideoPrivateID: "479274322/62bcd46d48",
                 VideoID: "479274322"
@@ -199,8 +199,7 @@ export const state = () => ({
             data: 'About 3x13'
         },
         AboutBodyText: {
-            data: `<p>3 x 13 features twelve artists from around the world who each tell a story about a journey that shaped their life using narration, choreography, and a subjective camera that brings the viewer into the intimate space between the performers’ inner and outer worlds.</p>
-            <p>Each film is three minutes long, with the thirteenth film taking shape as an interactive web interface where all twelve films play simultaneously in grid form.</p>
+            data: `<p>Each film is three minutes long, with the thirteenth film taking shape as an interactive web interface where all twelve films play simultaneously in grid form.</p>
             <p>By inviting audiences into this collection of deeply individual narratives, King and Imanishi hope to create a space for collective reflection through individual empathy.
             </p>`
         },

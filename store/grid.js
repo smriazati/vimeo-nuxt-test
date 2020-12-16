@@ -5,8 +5,10 @@ export const state = () => ({
     neverBeenPlayed: true,
     isModalOpen: false,
     isModalPlaying: false,
+    isModalEnded: false,
+    isFilm13Ended: false,
+    isFilm13Restarted: false,
     activeModal: null,
-    isPaginationExpanded: false,
     isModalTransitioning: false,
     subtitleLanguage: 'en'
 })
@@ -21,10 +23,10 @@ export const mutations = {
     },
     changeGridPlayback: (state, payload) => {
         state.isGridPlaying = payload;
+        
         if (payload && state.neverBeenPlayed) {
             state.neverBeenPlayed = false;
         }
-
         if (state.isGridPlaying) {
             state.isAboutOpen = false;
         }
@@ -32,24 +34,23 @@ export const mutations = {
     isModalTransitioning: (state, payload) => {
         state.isModalTransitioning = payload;
     },
-    toggleAbout: (state) => {
-        state.isAboutOpen = !state.isAboutOpen;
-        
-        if (state.isAboutOpen) {
-            state.isGridPlaying = false;
-        } else {
-            state.isGridPlaying = true;
-        }
-    },
     openAbout: (state) => {
         state.isAboutOpen = true;
-        // state.neverBeenPlayed = false;
     },
     openModal: (state, payload) => {
-        state.isPaginationExpanded = false;
-        state.isModalOpen = true;
         state.activeModal = payload;
-        state.isGridPlaying = false;
+
+        if (!state.isModalOpen) {
+            state.isModalOpen = true;
+        }
+
+        if (state.isGridPlaying) {
+            state.isGridPlaying = false;
+        }
+
+        if (state.isModalEnded) {
+            state.isModalEnded = false;
+        }
     },
     setModalPlaying: (state, payload) => {
         state.isModalPlaying = payload;
@@ -59,15 +60,16 @@ export const mutations = {
         state.activeModal = null;
         state.isGridPlaying = true;
         state.isModalPlaying = false;
-        state.isPaginationExpanded = false;
     },
-    expandPagination: (state) => {
-        state.isPaginationExpanded = true;
-        state.isModalOpen = false;
-        state.isModalPlaying = false;
+    isModalEnded: (state, payload) => {
+        state.isModalEnded = payload;
     },
-    minimizePagination: (state) => {
-        state.isPaginationExpanded = false;
+    endFilm13: (state) => {
+        state.isFilm13Ended = true;
+    },
+    restartFilm13: (state) => {
+        state.isFilm13Restarted = true;
+        state.isFilm13Ended = false;
     }
 }
 
